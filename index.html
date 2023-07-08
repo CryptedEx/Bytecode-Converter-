@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cryptex's Loadstring to Bytecode Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      margin: 20px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      resize: vertical;
+    }
+    #output-container {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-height: 300px;
+      overflow-y: scroll;
+    }
+    #output {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+    #copy-btn {
+      margin-top: 10px;
+    }
+    .box {
+      margin: 10px 0;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    .box:hover {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .convert-btn {
+      display: flex;
+      justify-content: center;
+    }
+    .convert-btn button {
+      padding: 10px 20px;
+    }
+    
+    /* Responsive Styles */
+    @media screen and (max-width: 480px) {
+      .container {
+        margin: 10px;
+        padding: 10px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      textarea {
+        font-size: 14px;
+      }
+      .box {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cryptex's Loadstring to Bytecode Converter</h1>
+    <label for="loadstring">Enter your Lua loadstring:</label><br>
+    <textarea id="loadstring" rows="5" cols="50"></textarea><br>
+    <div class="convert-btn">
+      <button class="box" onclick="convertLoadstring()">Convert</button>
+    </div>
+    <h2>Output:</h2>
+    <div id="output-container">
+      <pre id="output"></pre>
+    </div>
+    <div class="box" id="copy-btn" onclick="copyOutput()">Copy Output</div>
+  </div>
+
+  <script>
+    function convertLoadstring() {
+      var loadstring = document.getElementById("loadstring").value;
+      var encoded = encodeLoadstring(loadstring);
+      document.getElementById("output").textContent = encoded;
+      scrollOutput();
+    }
+
+    function encodeLoadstring(loadstring) {
+      var encoded = "";
+      for (var i = 0; i < loadstring.length; i++) {
+        encoded += "\\" + loadstring.charCodeAt(i);
+      }
+      return encoded;
+    }
+    
+    function scrollOutput() {
+      var outputContainer = document.getElementById("output-container");
+      outputContainer.scrollTop = outputContainer.scrollHeight;
+    }
+    
+    function copyOutput() {
+      var output = document.getElementById("output");
+      var range = document.createRange();
+      range.selectNode(output);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+      window.getSelection().removeAllRanges();
+    }
+  </script>
+</body>
+</html>
